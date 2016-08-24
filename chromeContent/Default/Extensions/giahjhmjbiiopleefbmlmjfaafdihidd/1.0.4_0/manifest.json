@@ -1,0 +1,23 @@
+{
+   "background": {
+      "persistent": false,
+      "scripts": [ "background.js" ]
+   },
+   "browser_action": {
+      "default_title": "Prepd Fast Catch"
+   },
+   "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
+   "description": "Prepd Chrome extension for catching articles",
+   "icons": {
+      "128": "img/png/fast-catch-icon-128.png",
+      "16": "img/png/fast-catch-icon-16.png",
+      "48": "img/png/fast-catch-icon-48.png"
+   },
+   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAquOqB4Ie41jfPqj4a8VPIJmn6AJhLaDA0NVy3ewiF/wyM9RuyYEhUqaQnQrqOhRaWEy0x1WHRQlLeRRAOQTFK3dhL8QCl0AKUX/uzxU6wpLfWrOAW3joLRepqR9lVhxxDLAMj0CrSUdV+uIwPyiuVNWumL8T+p2r+Nb8nPAIxULW3+XwYW6AJQ0aXh+1DH6TKenT55WL9OjpxlJguHI13IMZT1cZfpNjvhpSvSorTVd1YXEII3scmCmjx0TjkvV3vz5ulDvcuRUXVq6OPN8CrtheUJfGRuJu7CPLhRqevFOnKhtcyNFuHziAJ6IZJS4LcUboH1B0wY6eV4i0N/mbdQIDAQAB",
+   "manifest_version": 2,
+   "name": "Prepd Fast Catch",
+   "permissions": [ "https://*/*", "http://*/*" ],
+   "update_url": "https://clients2.google.com/service/update2/crx",
+   "version": "1.0.4",
+   "web_accessible_resources": [ "fonts/*", "img/*", "index.html", "boot.css", "index.js", "polyfills.js", "boot.js" ]
+}

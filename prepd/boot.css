@@ -1,0 +1,208 @@
+@font-face {
+  font-family: 'Open Sans';
+
+  src: url('./fonts/Open Sans/Regular.eot');
+  src: url('./fonts/Open Sans/Regular.eot?#iefix') format('embedded-opentype'),
+       url('./fonts/Open Sans/Regular.woff2') format('woff2'),
+       url('./fonts/Open Sans/Regular.woff') format('woff'),
+       url('./fonts/Open Sans/Regular.ttf') format('truetype'),
+       url('./fonts/Open Sans/Regular.svg#Regular') format('svg');
+  font-weight: normal;
+  font-weight: 400;
+  font-style: normal;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+html {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+#fast-catch-app {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+
+  display: flex;
+  justify-content: center;
+}
+
+#fast-catch-widget {
+  width: 675px;
+
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+
+  background-color: #ffffff;
+  box-shadow: 0 3px 15px 0 rgba(0, 0, 0, .25);
+}
+
+#fast-catch-body {
+  display: flex;
+  flex-direction: column;
+
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+
+  padding: 15px 20px;
+}
+#fast-catch-body > :nth-last-child(n+2) {
+  margin-bottom: 20px;
+}
+
+#fast-catch-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+#fast-catch-row > :nth-last-child(n+2) {
+  margin-right: 20px;
+}
+
+#fast-catch-logo {
+  display: flex;
+}
+
+#fast-catch-logo > #fast-catch-svg {
+  height: 36px;
+
+  fill: rgb(255, 144, 22);
+}
+
+#fast-catch-message-and-spinner {
+  display: flex;
+  align-items: center;
+}
+
+#fast-catch-message-and-spinner > :nth-last-child(n+2) {
+  margin-right: 20px;
+}
+
+#fast-catch-message {
+  margin-top: 0;
+  margin-bottom: 0;
+
+  font-family: 'Open Sans';
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 27px;
+
+  color: rgb(97, 100, 114);
+}
+
+#fast-catch-spinner {
+  width: 60px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#fast-catch-spinner > #fast-catch-box-one,
+#fast-catch-spinner > #fast-catch-box-two,
+#fast-catch-spinner > #fast-catch-box-three {
+  width: 15px;
+  height: 15px;
+
+  border-radius: 3px;
+
+  animation: bounce 1.4s infinite ease-in-out;
+  animation-fill-mode: both;
+
+  background-color: rgb(0, 198, 147);
+}
+#fast-catch-spinner > #fast-catch-box-one {
+  animation-delay: .0s;
+}
+#fast-catch-spinner > #fast-catch-box-two {
+  animation-delay: .16s;
+}
+#fast-catch-spinner > #fast-catch-box-three {
+  animation-delay: .32s;
+}
+
+@keyframes bounce {
+  0%, 80%, 100% {
+    transform: scale(0.0);
+  }
+  40% {
+    transform: scale(1.0);
+  }
+}
+
+#fast-catch-button-icon {
+  width: 36px;
+  height: 36px;
+  text-decoration: none;
+  background-color: transparent;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 3px;
+  padding: 0;
+  outline: 0;
+  overflow: hidden;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: box-shadow .3s ease, background-color .3s ease;
+  -webkit-user-select: none;
+  box-sizing: border-box;
+  border-color: #d2dbdc;
+}
+
+#fast-catch-button-icon > #fast-catch-icon-svg {
+  width: 30px;
+  height: 30px;
+  fill: #9fa3ba;
+}
+
+#fast-catch-button-icon[disabled],
+#fast-catch-button-icon[disabled]:hover {
+  box-shadow: none;
+  background-color: transparent;
+  border-color: #d2dbdc;
+}
+#fast-catch-button-icon[disabled] > #fast-catch-icon-svg,
+#fast-catch-button-icon[disabled]:hover > #fast-catch-icon-svg {
+  fill: #d2dbdc;
+}
+#fast-catch-button-icon:hover {
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2);
+  background-color: white;
+}
+#fast-catch-button-icon:hover > #fast-catch-icon-svg {
+  fill: #9fa3ba;
+}
+#fast-catch-button-icon:active,
+#fast-catch-button-icon.-active {
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2);
+  background-color: white;
+}
+#fast-catch-button-icon:active > #fast-catch-icon-svg,
+#fast-catch-button-icon.-active > #fast-catch-icon-svg {
+  fill: #9fa3ba;
+}
+
+
+:host.-small > svg {
+  width: 24px;
+  height: 24px;
+}
+:host.-medium {
+  width: 36px;
+  height: 36px;
+}
+:host.-medium > svg {
+  width: 30px;
+  height: 30px;
+}

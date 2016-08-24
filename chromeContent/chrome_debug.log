@@ -1,0 +1,21 @@
+[24345:24345:0823/210236:WARNING:password_store_factory.cc(250)] Using basic (unencrypted) store for password storage. See https://chromium.googlesource.com/chromium/src/+/master/docs/linux_password_storage.md for more information about password storage options.
+[24345:24375:0823/210236:ERROR:nss_util.cc(842)] After loading Root Certs, loaded==false: NSS error code: -8018
+[24345:24345:0823/210236:INFO:CONSOLE(6)] "SW registered", source: https://www.google.com/_/chrome/newtab?espv=2&ie=UTF-8 (6)
+[26:26:0823/210241:ERROR:PlatformKeyboardEvent.cpp(84)] Not implemented reached in static bool blink::PlatformKeyboardEvent::currentCapsLockState()
+[24345:24345:0823/210241:INFO:CONSOLE(4)] "postQueue timeout occurred - Proximic", source: http://www.i.cdn.cnn.com/.a/1.289.1/js/cnn-header-second.min.js (4)
+[24345:24345:0823/210241:INFO:CONSOLE(4)] "[AdFuel - WARNING]", source: http://www.i.cdn.cnn.com/.a/1.289.1/js/cnn-header-second.min.js (4)
+[24345:24345:0823/210241:INFO:CONSOLE(4)] "[AdFuel - WARNING]", source: http://www.i.cdn.cnn.com/.a/1.289.1/js/cnn-header-second.min.js (4)
+[24345:24345:0823/210241:INFO:CONSOLE(4)] "[AdFuel - WARNING]", source: http://www.i.cdn.cnn.com/.a/1.289.1/js/cnn-header-second.min.js (4)
+[24345:24345:0823/210241:INFO:CONSOLE(4)] "[AdFuel - WARNING]", source: http://www.i.cdn.cnn.com/.a/1.289.1/js/cnn-header-second.min.js (4)
+[24345:24345:0823/210241:INFO:CONSOLE(4)] "[AdFuel - WARNING]", source: http://www.i.cdn.cnn.com/.a/1.289.1/js/cnn-header-second.min.js (4)
+[24345:24345:0823/210241:INFO:CONSOLE(4)] "[AdFuel - WARNING]", source: http://www.i.cdn.cnn.com/.a/1.289.1/js/cnn-header-second.min.js (4)
+[24345:24345:0823/210241:INFO:CONSOLE(4)] "[AdFuel - WARNING]", source: http://www.i.cdn.cnn.com/.a/1.289.1/js/cnn-header-second.min.js (4)
+[26:26:0823/210241:ERROR:PlatformKeyboardEvent.cpp(84)] Not implemented reached in static bool blink::PlatformKeyboardEvent::currentCapsLockState()
+[24345:24345:0823/210243:INFO:CONSOLE(38436)] "EXCEPTION: [object Object]", source: chrome-extension://giahjhmjbiiopleefbmlmjfaafdihidd/boot.js (38436)
+[24345:24345:0823/210243:INFO:CONSOLE(53568)] "Uncaught [object Object]", source: chrome-extension://giahjhmjbiiopleefbmlmjfaafdihidd/boot.js (53568)
+[24345:24345:0823/210243:INFO:CONSOLE(2)] "Warning: this document has no DOCTYPE declaration. Rendering and features may not adhere to web standards. For more information, see https://developer.mozilla.org/en-US/docs/Quirks_Mode_and_Standards_Mode.", source: https://secure.flashtalking.com/frameworks/js/api/2/9/html5API.js (2)
+[24510:24510:0823/210243:ERROR:sandbox_linux.cc(343)] InitializeSandbox() called with multiple threads in process gpu-process. 
+[26:26:0823/210243:WARNING:webmediaplayer_impl.cc(346)] Using MultibufferDataSource
+[24345:24345:0823/210243:INFO:CONSOLE(3)] "'webkitAudioContext' is deprecated. Please use 'AudioContext' instead.", source: https://s.edgexads.com/2/4.14.10/loaded.js (3)
+[24510:24510:0823/210250:ERROR:x11_util.cc(89)] X IO error received (X server probably went away)
+[24345:24345:0823/210250:ERROR:chrome_browser_main_extra_parts_x11.cc(66)] X IO error received (X server probably went away)
