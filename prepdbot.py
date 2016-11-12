@@ -1,135 +1,116 @@
-import os
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.common.keys import Keys
-from pyvirtualdisplay import Display
-import pyautogui
-import Xlib.display
+import requests
+import json
+import base64
+import getpass
+from eventregistry import *
 import time
+import sys
+import json
 
-#user variables
-email = ""
-password = ""
-maxTimeout = 30
-shortTimeout = 2
+#######################################################
+'''
+username = "PREPD USERNAME GOES HERE"
+password = "PREPD PASSWORD GOES HERE"
 
-#test stuff
-theURL = raw_input("URL: ")
+eventregUser = "EVENT REGISTRY USERNAME GOES HERE"
+eventregPass = "EVENT REGISTRY PASSWORD GOES HERE"
 
-#application variables
-firstRun = True
+#TEAM ID GOES HERE
+teamId = 0000
+'''
+#######################################################
 
-#initialize virtual display
-display = Display(visible=1, size=(800,600))
-display.start()
-pyautogui._pyautogui_x11._display = Xlib.display.Display(os.environ['DISPLAY'])
+loginCookie = ""
+loginInfo = ""
+articleNum = 0
 
+#checks if person is logged into prepd
 
-#setting path variables for chromedriver and the prepd extension
-path = os.path.dirname(os.path.abspath(__file__)) + "/"
-executable_path = path + "chromedriver"
-chrome_options = Options()
-#chrome_options.add_extension(path + "prepdFastCatch.crx")
-#chrome_options.add_argument("--user-data-dir=" + path + "chrome")
+def checkLogin():
+    global loginCookie
+    profileReq = requests.get('https://api-v3.prepd.in/core/profile', cookies=loginCookie)
 
-chrome_options.add_argument("--user-data-dir=/home/isaac/git/prepdbot_v3/chromeContent")
-print "--user-data-dir=" + path + "chrome"
-chrome_options.add_argument("--test-type")
-chrome_options.add_argument("--start-fullscreen")
+    if profileReq.status_code == 200:
+        return True
+    else:
+        return False
 
-#initializing webdriver
-driver = webdriver.Chrome(executable_path= executable_path, chrome_options=chrome_options)
-driver.set_window_size(800,600)
-driver.implicitly_wait(maxTimeout)
+#logs in to prepd
 
-print "text"
-
-#function that actually cuts
-def prepdBot(url):
-    global email
+def login():
+    global username
     global password
-    global firstRun
-    global maxTimeout
-    global shortTimeout
-    global driver
+    global loginInfo
+    global loginCookie
 
-    #open page
-    print "URL: " + url
-    driver.get(url)
+    print "Logging in " + username
 
-    #on first opening
-    if firstRun == True:
-        #open and access prepd extension
-        print "opening prepd extension"
+    setReq = requests.get('https://api-v3.prepd.in/core/cookie/set')
+    setCookie = dict(setReq.cookies)
 
-        pyautogui.click(x=724, y=59, clicks=1, interval=0, button='left')
-        driver.switch_to_frame(driver.find_element_by_id("fast-catch-KFoi8cNdjb"))
+    getReq = requests.get('https://api-v3.prepd.in/core/cookie/get', cookies=setCookie)
 
-        #enter password and email
-        print "authenticating"
+    base64auth = base64.b64encode(username + ":" + password)
 
+    loginReq = requests.get('https://api-v3.prepd.in/core/login', headers={"authorization": "Basic " + base64auth})
 
-        passwordElement = driver.find_element_by_xpath("//input[@placeholder='Password']")
-        passwordElement.send_keys(password)
+    loginCookie = dict(loginReq.cookies)
 
-        emailElement = driver.find_element_by_xpath("//input[@placeholder='Email']")
-        emailElement.send_keys(email)
+    loginInfo = json.loads(loginReq.text)
 
-        passwordElement.send_keys(Keys.RETURN)
+#cuts an article based on a URL
 
-    #click "next" button
-    print "saving article"
-    time.sleep(shortTimeout)
-    driver.find_element_by_class_name("-important").click()
-    print "clicked"
+def cut(url):
+    global loginCookie
+    global teamId
+    global articleNum
 
-    '''
-    #click "extemp" button
+    print url
 
-    driver.find_element_by_class_name("-extemp").click()
-    '''
+    fastcatchReq = requests.get("https://api-v3.prepd.in/ws/authorize/fast-catch", cookies=loginCookie)
 
-    #view article
-    articleViewElement = driver.find_element_by_tag_name("a")
+    diffbotPayload = {'teamId': teamId, 'url': url}
+    diffbotReq = requests.post("https://api-v3.prepd.in/core/publications/diffbot", cookies=loginCookie, json=diffbotPayload)
 
-    articleViewURL = articleViewElement.get_attribute("href")
-    print "Article View URL: " + articleViewURL
+    catchPayload = {"teams":[teamId],"url": url,"content":None}
+    catchReq = requests.post("https://api-v3.prepd.in/core/catch", cookies=loginCookie, json=catchPayload)
 
-    #driver.switchTo().defaultContent();
+    extempReq = requests.post("https://api-v3.prepd.in/core/catch", cookies=loginCookie, json=catchPayload)
 
-    driver.get(articleViewURL)
+    if extempReq.status_code != 200:
+        print "Article already cut"
 
-    #highlighting
-    print "*****************************"
+    if (fastcatchReq.status_code == 200 and diffbotReq.status_code == 200 and catchReq.status_code == 200 and extempReq.status_code == 200):
+        articleNum = articleNum + 1
 
-    sentenceArray = driver.find_elements_by_xpath("//div[@data-paragraph-id]")
+    print "Articles cut: " + str(articleNum) + "\n"
 
-    for i in xrange(0,len(sentenceArray)):
-        print sentenceArray[i]
-        for j in xrange(0,len(sentenceArray[i])):
-            if sentenceArray[i][j].isdigit():
-                #highlighting
-                for k in xrange(0,3):
-                    sentenceArray[i][j].click()
+#main
 
-                    actions = ActionChains(driver)
+login()
 
-                    #hover over highlight div
-                    highlightElement = driver.find_element_by_class_name("highlighter")
-                    actions.move_to_element(highlightElement)
+if checkLogin() :
+    print "\nLogin Success\n"
+else:
+    print "\nLogin Failed\n"
+    sys.exit(1)
 
-                    #hover over highlight color selector
-                    highlightColorElement = driver.find_element_by_by_xpath("//div[@style = 'background-color: rgb(234, 227, 63);']")
-                    actions.move_to_element(highlightColorElement)
+er = EventRegistry("http://eventregistry.org", verboseOutput = True)
+print "logging in to Event registry\n"
+er.login(eventregUser,eventregPass)
 
-                    actions.perform()
+recentQ = GetRecentArticles(maxArticleCount = 1000)
 
-                break
+while True:
+    if checkLogin() == False:
+        print "Login Failed"
+        login()
+    articleList = recentQ.getUpdates(er)
+    print str(len(articleList)) + " articles were added"
+    # do whatever you need to with the articleList
+    for article in articleList:
+        if article["lang"] == "eng":
+            cut(article["url"])
 
-    #set first run bool to false
-    firstRun = False
-
-    print "-----------------------------"
-
-#runtime
-prepdBot(theURL)
+    print "\nsleeping for 10 min...\n"
+    time.sleep(600)
