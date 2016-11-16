@@ -1,28 +1,35 @@
 import requests
 import json
 import base64
-import getpass
-from eventregistry import *
 import time
 import sys
 import json
+from eventregistry import *
 
 #######################################################
-'''
-username = "PREPD USERNAME GOES HERE"
-password = "PREPD PASSWORD GOES HERE"
 
-eventregUser = "EVENT REGISTRY USERNAME GOES HERE"
-eventregPass = "EVENT REGISTRY PASSWORD GOES HERE"
+username = "PREPD USERNAME"
+password = "PREPD PASSWORD"
+
+eventregUser = "EVENT REGISTRY USERNAME"
+eventregPass = "EVENT REGISTRY PASSWORD"
 
 #TEAM ID GOES HERE
 teamId = 0000
-'''
+
+#place sources here in array form
+sources = ["The Economist", "New York Times", "BBC", "Wall Street Journal", "Christian Science Monitor", "Washington Post"]
+
+#place concepts here in array form
+concepts = ["Economy", "Politics", "Military"]
+
 #######################################################
 
 loginCookie = ""
 loginInfo = ""
 articleNum = 0
+oldURL = []
+URL = []
 
 #checks if person is logged into prepd
 
@@ -85,6 +92,39 @@ def cut(url):
 
     print "Articles cut: " + str(articleNum) + "\n"
 
+#relogin
+
+def relogin():
+    if checkLogin() == False:
+        print "Login Failed"
+        login()
+
+#gets source URLs
+
+def getURL(er):
+    global sources
+    global concepts
+    global oldURL
+    global URL
+
+    print "\nGetting URLs\n"
+
+    oldURL = list(URL)
+    URL = []
+
+    for i in concepts:
+        print i
+        q = QueryArticles(lang = ["eng"], sourceUri = sources, conceptUri = [er.getConceptUri(i)])
+        q.addRequestedResult(RequestArticlesInfo(count = 40))
+        res = er.execQuery(q)
+        print ""
+
+        for j in res["articles"]["results"]:
+            if (j["url"] not in URL) and (j["url"] not in oldURL):
+                print j["url"]
+                URL.append(j["url"])
+        print ""
+
 #main
 
 login()
@@ -99,18 +139,18 @@ er = EventRegistry("http://eventregistry.org", verboseOutput = True)
 print "logging in to Event registry\n"
 er.login(eventregUser,eventregPass)
 
-recentQ = GetRecentArticles(maxArticleCount = 1000)
+for i in xrange(0, len(sources)):
+    sources[i] = er.getNewsSourceUri(sources[i])
 
 while True:
-    if checkLogin() == False:
-        print "Login Failed"
-        login()
-    articleList = recentQ.getUpdates(er)
-    print str(len(articleList)) + " articles were added"
-    # do whatever you need to with the articleList
-    for article in articleList:
-        if article["lang"] == "eng":
-            cut(article["url"])
+    relogin()
 
-    print "\nsleeping for 10 min...\n"
-    time.sleep(600)
+    getURL(er)
+    print str(len(URL)) + " articles were added"
+
+    for i in URL:
+        relogin()
+        cut(i)
+
+    print "\nsleeping for 30 min...\n"
+    time.sleep(1800)
